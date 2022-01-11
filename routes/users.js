@@ -8,14 +8,6 @@
 const express = require('express');
 const router  = express.Router();
 
-//cookie parser init
-let cookieParser = require('cookie-parser');
-const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(cookieParser());
-
-
-
 module.exports = (db) => {
   router.get("/", (req, res) => {
     db.query(`SELECT * FROM users;`)
@@ -31,8 +23,3 @@ module.exports = (db) => {
   });
   return router;
 };
-
-app.get('/login/:id', function (req, res) {
-  res.cookie(id, req.params.id);
-  res.redirect("/");
-});
