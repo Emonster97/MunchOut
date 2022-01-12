@@ -57,12 +57,17 @@ app.use("/api/widgets", widgetsRoutes(db));
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
+  //if we have an order cookie, redirect to /orders instead ?, design choice
+  //otherwise, query items and show index:
+
   // queries database for all items (and returns a promise, must wait to resolve before using data)
   db.query('SELECT * FROM items;')
     // data is returned from promise (db.query)
     .then(data => {
       // if succesful, renders index.ejs along with template variable object items
       // which contains returned data.rows
+
+
       return res.render("index", {
         items: data.rows
       });
