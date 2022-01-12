@@ -16,6 +16,34 @@
 
 <body>
   <img class="logo" src="/assets/MunchOut.jpeg" alt="MunchOut"/>
+  <div>
+    <h1>MENU</h1>
+    <h2>Appetizers</h2>
+    <!-- loop through each item, display all properties -->
+    <div class="apps">
+      <%= items[0].name %>
+      <%= items[0].description %>
+      <%= items[0].price %>
+      <img href="<%= items[0].thumbnail_url %>"">
+
+    </div>
+    <div class="apps"><%= items[1].name %></div>
+    <div class="apps"><%= items[2].name %></div>
+    <h2>Entrees</h2>
+    <div class="entrees"><%= items[3].name %></div>
+    <div class="entrees"><%= items[4].name %></div>
+    <div class="entrees"><%= items[5].name %></div>
+    <h2>Beverages</h2>
+    <div class="beverages"><%= items[6].name %></div>
+    <div class="beverages"><%= items[7].name %></div>
+    <div class="beverages"><%= items[8].name %></div>
+    <div class="beverages"><%= items[9].name %></div>
+    <h2>Desserts</h2>
+    <div class="dessert"><%= items[10].name %></div>
+    <div class="dessert"><%= items[11].name %></div>
+    <div class="dessert"><%= items[12].name %></div>
+
+  </div>
 </body>
 
 </html>

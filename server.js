@@ -57,7 +57,17 @@ app.use("/api/widgets", widgetsRoutes(db));
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
-  res.render("index");
+  // queries database for all items (and returns a promise, must wait to resolve before using data)
+  db.query('SELECT * FROM items;')
+    // data is returned from promise (db.query)
+    .then(data => {
+      // if succesful, renders index.ejs along with template variable object items
+      // which contains returned data.rows
+      return res.render("index", {
+        items: data.rows
+      });
+    })
+    .catch(error => console.log(error));
 });
 
 app.get("/items", (req, res) => {
