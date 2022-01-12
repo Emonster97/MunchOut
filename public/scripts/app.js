@@ -1,9 +1,5 @@
 // Client facing scripts here
 
-const addItemToOrder = () => {
-  let total
-}
-
 $( document ).ready(function() {
   console.log( "ready!" );
 

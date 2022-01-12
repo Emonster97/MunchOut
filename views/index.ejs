@@ -19,32 +19,7 @@
   <div>
     <img class="logo" src="/assets/MunchOut.jpeg" alt="MunchOut"/>
     <h1>MENU</h1>
-    <!-- loop through each item, display all properties -->
-    <!--
-    <div class="apps">
-      <%= items[0].name %>
-      <%= items[0].description %>
-      <%= items[0].price %>
-      <img href="<%= items[0].thumbnail_url %>"">
-      <p>ID: 1</p>
-    </div>
 
-    <div class="apps"><%= items[1].name %><p>ID: 2</p></div>
-    <div class="apps"><%= items[2].name %><p>ID: 3</p></div>
-    <h2>Entrees</h2>
-    <div class="entrees"><%= items[3].name %> <p>ID: 4</p></div>
-    <div class="entrees"><%= items[4].name %><p>ID: 5</p></div>
-    <div class="entrees"><%= items[5].name %><p>ID: 6</p></div>
-    <h2>Beverages</h2>
-    <div class="beverages"><%= items[6].name %><p>ID: 7</p></div>
-    <div class="beverages"><%= items[7].name %><p>ID: 8</p></div>
-    <div class="beverages"><%= items[8].name %><p>ID: 9</p></div>
-    <div class="beverages"><%= items[9].name %><p>ID: 10</p></div>
-    <h2>Desserts</h2>
-    <div class="dessert"><%= items[10].name %><p>ID: 11</p></div>
-    <div class="dessert"><%= items[11].name %><p>ID: 12</p></div>
-    <div class="dessert"><%= items[12].name %><p>ID: 13</p></div>
-    -->
     <% items.forEach((item) => { %>
       <div class="orderItem" id="<%= item.id %>">
         <img src="<%= item.thumbnail_url %>"/>
