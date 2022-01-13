@@ -57,6 +57,15 @@ app.use("/api/widgets", widgetsRoutes(db));
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
+
+  //if they dont have an id on cookie then set = 1, only works because one user
+  if (!req.cookies.id) {
+    res.cookie('id', 1);
+  }
+  if (req.cookies['order']){
+    res.redirect('/orders');
+  }
+  //when testing the app delete the orders database, otherwise after we place
   //if we have an order cookie, redirect to /orders instead ?, design choice
   //otherwise, query items and show index:
 

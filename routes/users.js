@@ -21,6 +21,8 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
+  //look at this for cookie example, we set it based off the 2nd param
   router.get('/login/:id', function (req, res) {
     res.cookie('id', req.params.id);
     res.redirect("/");
@@ -28,6 +30,13 @@ module.exports = (db) => {
 
   router.get('/orders', function (req, res){
     //write query to get order details from res.cookie["order"]
+    db.query(`SELECT items.name, order_items.quantity FROM items JOIN order_items ON order_items.order_id=${req.cookies["order"]} AND order_items.item_id=items.id`)
+    .then(data =>{
+      let rows = data.rows;
+      res.json({rows});
+    }
+      )
+
     //cookie order is order_id
     //if (!res.cookie["order"]) { res.redirect(main) } //no order placed
   })
@@ -44,7 +53,9 @@ module.exports = (db) => {
 
       //make array of items using req body use multiple insert queries through array to dump them into order items under the correct order id
 
-      //if (res.cookie["order"]) { get outa here }
+       if (req.cookies['order']){
+          res.redirect('/orders');
+        }
     const items = JSON.parse(req.body.Item_Id);
     if (items.length <= 0) {
       res.json({ error: "No items selected!" });
@@ -66,10 +77,13 @@ module.exports = (db) => {
 
       db.query(format(insertSQL, values),[]).then(data => {
         //store order ID somewhere on user so you're able to query database to see the order
-        //res.cookie["order"] = orderId;
+        res.cookie('order', orderId);
+        //clear this cookie when the order is completed
+
         //show a different screen if order cookie is already set, so user can't place multiple orders
         //redirect to /orders
         res.json({ data });
+        res.redirect('/orders');
       }).catch(err => console.log(err));
 
       //SELECT * FROM order_items JOIN orders ON order_items.order_id = orders.id;
