@@ -1,27 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Home Page</title>
 
-<head>
-  <title>Home Page</title>
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/main.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
-  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/main.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-
-  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-  <script type="text/javascript" src="/scripts/app.js"></script>
-</head>
-<body><h1>Orders</h1>
-  <ul>
-
-    <div> <%= new Date (parseInt(order.place_order_time)).toLocaleString('en-CA', { timeZone: 'America/New_York' }) %> </div>
-
-  </ul>
-  <% items.forEach(function(item){ %>
-    <div> <%= item.name %> <%= item.price %> <%= item.description %></div>
-    <% }); %>
-</body>
-
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+  </head>
+  <body>
+    <div>
+      <span hidden id="placedTime"><%= order.place_order_time %></span>
+      <h1>Order #<%= order.id %></h1>
+      <div id="timeToDeliver">
+        Order ready at: <br/>
+      </div>
+      <% for (let i = 0; i < items.length; i++) { %>
+        <div>
+          <%= items[i].name %> <br/>
+          Quantity: <%= order_items[i].quantity %> <br/>
+          Total: $<%= ((items[i].price * order_items[i].quantity) / 100).toFixed(2) %> <br/>
+          <%= items[i].description %> <br/>
+        </div>
+      <% }; %>
+      <div>
+        <% let grandTotal = 0;
+        for (let i = 0; i < items.length; i++) {
+          grandTotal += items[i].price * order_items[i].quantity;
+        }
+        grandTotal = (grandTotal / 100).toFixed(2);
+        %>
+        Grand Total: $<%= grandTotal %>
+      </div>
+      <a href="/">Place a New Order</a>
+      <a href="/api/orders/">View All Orders</a>
+    </div>
+  </body>
+  <script>
+    let placedTime = parseInt(document.querySelector("#placedTime").innerHTML);
+    let orderFinishedTime = new Date(placedTime);
+    orderFinishedTime = orderFinishedTime.getTime();
+    orderFinishedTime += 1000 * 60 * 1; //1 minute
+    let currentTime = new Date();
+    currentTime = currentTime.getTime();
+    let timeout = orderFinishedTime - currentTime;
+    console.log(timeout);
+    document.querySelector("#timeToDeliver").innerHTML += new Date(orderFinishedTime).toLocaleString('en-CA', { timeZone: 'America/New_York' });
+    setTimeout(() => {
+      fetch("/api/orders/order_ready");
+      alert("Your order is ready for pickup!");
+    }, timeout);
+  </script>
 </html>
 
