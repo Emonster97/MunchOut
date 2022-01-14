@@ -5,14 +5,15 @@ $( document ).ready(function() {
 
   //Increase and decrease quantities
   $(".incItem").click(function() {
-    let id = $(this).parent().attr("id");
+    let id = $(this).parent().parent().attr("id");
     let quantityEle = $(`#${id} span`);
     let quantity = parseInt(quantityEle.html());
     quantity += 1;
     quantityEle.html(quantity);
   });
   $(".decItem").click(function() {
-    let id = $(this).parent().attr("id");
+    let id = $(this).parent().parent().attr("id");
+    console.log('id: ', id)
     let quantityEle = $(`#${id} span`);
     let quantity = parseInt(quantityEle.html());
     quantity -= (quantity > 0 ? 1 : 0);
@@ -25,7 +26,9 @@ $( document ).ready(function() {
     items = [];
     let itemEles = $(".orderItem");
     for (let item of itemEles) {
+
       let quantity = parseInt(item.querySelector("span").innerHTML);
+
       if (quantity > 0)
         items.push({id: item.id, quantity: quantity});
     }

@@ -4,7 +4,7 @@
 
 <head>
   <title>MunchOut</title>
-
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
@@ -16,35 +16,54 @@
 
 <body>
 
-  <div>
-    <img class="logo" src="/assets/MunchOut.jpeg" alt="MunchOut"/>
-    <h1>MENU</h1>
+  <div class="menuList">
+    <a href="/">
+      <img class="logo" src="/assets/logo.png" alt="MunchOut"/>
+    </a>
 
+    <h1>MENU</h1>
     <% items.forEach((item) => { %>
+      <% if (item.id === 1) { %>
+        <h2> APPS </h2>
+      <% } else if (item.id === 4) {%>
+        <h2> ENTREES </h2>
+      <% } else if (item.id === 7) {%>
+        <h2> BEVERAGES </h2>
+        <% } else if (item.id === 11) {%>
+          <h2> DESSERTS </h2>
+          <% } %>
       <div class="orderItem" id="<%= item.id %>">
-        <img src="<%= item.thumbnail_url %>"/>
-        <b><%= item.name %> : $<%= (item.price / 100).toFixed(2) %></b>
+        <img src="<%= item.thumbnail_url %>" class="thumbnail"/>
+
+        <div class="nameAndDesc">
+          <h3 class="itemTitle"><b><%= item.name %></b></h3>
+            <div class="itemDescription">
+              <%= item.description %>
+            </div>
+            <div class="itemPrice">
+              <b>$<%= (item.price / 100).toFixed(2) %> </b>
+            </div>
+        </div>
+
+        <div class="quantityCounter">Quantity:
+          <span id="amount">
+            0
+          </span>
+          <button class="btn btn-light incItem">+</button>
+          <br>
+          <button class="btn btn-light decItem">-</button>
+          </div>
         <br/>
-        <%= item.description %>
-        Quantity: <span>0</span>
-        <button class="incItem">+</button>
-        <button class="decItem">-</button>
+
       </div>
     <% }) %>
 
-
-
     <form id="orderForm" method="POST" action="/api/users/orders">
-      <h2>Place your order</h2>
       <input type="hidden" id="Item_Id" name="Item_Id" />
-      <input id="placeOrder" type="submit" value="Place your order" />
+      <input id="placeOrder" type="submit" class="btn btn-light" value="Order Now"/>
     </form>
 
   </div>
 </body>
 
 </html>
-
-
-
-
