@@ -7,6 +7,11 @@
 
 const express = require('express');
 const router  = express.Router();
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
+
+const twilioNumber = process.env.TWILIO_PHONE_NUMBER;
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -34,12 +39,13 @@ module.exports = (db) => {
     .then(data =>{
       let rows = data.rows;
       res.json({rows});
+      res.render('orders', {orders:rows})
     }
       )
 
     //cookie order is order_id
     //if (!res.cookie["order"]) { res.redirect(main) } //no order placed
-    res.render('orders')
+
   })
 
  router.post('/', function (req,res) {
@@ -77,13 +83,27 @@ module.exports = (db) => {
       let format = require("pg-format");
       console.log (format(insertSQL, values));
       db.query(format(insertSQL, values),[]).then(data => {
-        //store order ID somewhere on user so you're able to query database to see the order
-        res.cookie('order', orderId);
-        //clear this cookie when the order is completed
-
-        //show a different screen if order cookie is already set, so user can't place multiple orders
-        //redirect to /orders
-        res.redirect("/api/users/orders");
+        db.query(`SELECT items.name FROM items JOIN order_items ON order_items.order_id=${orderId}`).then(data => {
+          let items = data.rows;
+          //store order ID somewhere on user so you're able to query database to see the order
+          res.cookie('order', orderId);
+          //clear this cookie when the order is completed
+          let orderMessage = "New Order: ";
+          for (let i = 0; i < items.length; i++) {
+            orderMessage += values[i][2].quantity + "x " + items[i].name + ". ";
+          }
+          console.log(orderMessage);
+          client.messages
+          .create({
+            body: orderMessage,
+            from: twilioNumber,
+            to: '16134004750'
+          })
+          .then(message => console.log(message.sid));
+          //show a different screen if order cookie is already set, so user can't place multiple orders
+          //redirect to /orders
+          res.redirect("/api/users/orders");
+        }).catch(err => console.log(err));
       }).catch(err => console.log(err));
 
       //SELECT * FROM order_items JOIN orders ON order_items.order_id = orders.id;

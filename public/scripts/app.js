@@ -34,6 +34,10 @@ $( document ).ready(function() {
       if (quantity > 0)
         items.push({id: item.id, quantity: quantity});
     }
+    if (items.length <= 0) {
+      alert("Please select atleast 1 item to order!");
+      return;
+    }
     $("#Item_Id").val(JSON.stringify(items));
     $("#orderForm").submit();
   });
