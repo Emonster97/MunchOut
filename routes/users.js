@@ -30,6 +30,7 @@ module.exports = (db) => {
     //write query to get order details from res.cookie["order"]
     //cookie order is order_id
     //if (!res.cookie["order"]) { res.redirect(main) } //no order placed
+    res.render('orders')
   })
 
  router.post('/', function (req,res) {
@@ -49,7 +50,7 @@ module.exports = (db) => {
     if (items.length <= 0) {
       res.json({ error: "No items selected!" });
     }
-    db.query(`INSERT INTO orders (user_id, status, place_order_time) VALUES (${Number(req.cookies['id'])}, 'Placed Order', ${Date.now()}) RETURNING *`)
+    db.query(`INSERT INTO orders (user_id, status, place_order_time) VALUES ($1, 'Placed Order', $2) RETURNING *`,[Number(req.cookies['id']),Date.now()])
     .then(data => {
       const order = data.rows[0];
       orderId = order.id;
@@ -63,13 +64,13 @@ module.exports = (db) => {
 
       const insertSQL = "INSERT INTO order_items (order_id, item_id, quantity) VALUES %L RETURNING *"
       let format = require("pg-format");
-
+      console.log (format(insertSQL, values));
       db.query(format(insertSQL, values),[]).then(data => {
         //store order ID somewhere on user so you're able to query database to see the order
         //res.cookie["order"] = orderId;
         //show a different screen if order cookie is already set, so user can't place multiple orders
         //redirect to /orders
-        res.json({ data });
+        res.redirect("/api/users/orders");
       }).catch(err => console.log(err));
 
       //SELECT * FROM order_items JOIN orders ON order_items.order_id = orders.id;

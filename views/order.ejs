@@ -14,11 +14,13 @@
 </head>
 <body><h1>Orders</h1>
   <ul>
-    <% orders.forEach(function(order){ %>
-    <div> <%= order.place_order_time %> </div>
-    <% }); %>
-  </ul>
 
+    <div> <%= new Date (parseInt(order.place_order_time)).toLocaleString('en-CA', { timeZone: 'America/New_York' }) %> </div>
+
+  </ul>
+  <% items.forEach(function(item){ %>
+    <div> <%= item.name %> <%= item.price %> <%= item.description %></div>
+    <% }); %>
 </body>
 
 </html>
