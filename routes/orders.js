@@ -22,7 +22,7 @@ router.get("/order_ready", () => {
   .create({
      body: 'Your order is ready for pickup!',
      from: twilioNumber,
-     to: '16134004750'
+     to: '17806992118'
    })
   .then(message => console.log(message.sid));
 });
@@ -88,7 +88,7 @@ router.post('/', function (req, res){
         .create({
           body: orderMessage,
           from: twilioNumber,
-          to: '16134004750'
+          to: '17806992118'
         })
         .then(message => console.log(message.sid));
         res.redirect("/api/orders/"+orderId);

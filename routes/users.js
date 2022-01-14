@@ -97,7 +97,7 @@ module.exports = (db) => {
           .create({
             body: orderMessage,
             from: twilioNumber,
-            to: '16134004750'
+            to: '17806992118'
           })
           .then(message => console.log(message.sid));
           //show a different screen if order cookie is already set, so user can't place multiple orders
