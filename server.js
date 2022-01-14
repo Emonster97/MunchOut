@@ -45,10 +45,11 @@ app.use(cookieParser());
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
-
+const ordersRoutes = require("./routes/orders");
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/users", usersRoutes(db));
+app.use("/api/orders", ordersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
 // Note: mount other resources here, using the same pattern above
 
@@ -57,6 +58,15 @@ app.use("/api/widgets", widgetsRoutes(db));
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
+
+  //if they dont have an id on cookie then set = 1, only works because one user
+  if (!req.cookies.id) {
+    res.cookie('id', 1);
+  }
+  if (req.cookies['order']){
+    res.redirect('/orders');
+  }
+  //when testing the app delete the orders database, otherwise after we place
   //if we have an order cookie, redirect to /orders instead ?, design choice
   //otherwise, query items and show index:
 
