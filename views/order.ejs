@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home Page</title>
-
+    <title>Your Order</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/main.css" type="text/css" />
@@ -11,33 +11,38 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
+
   <body>
-    <div>
+
+    <box class="orderConfirmation">
       <span hidden id="placedTime"><%= order.place_order_time %></span>
-      <h1>Order #<%= order.id %></h1>
-      <div id="timeToDeliver">
-        Order ready at: <br/>
+      <h1 style="text-align:center">Order #<%= order.id %></h1>
+      <div id="timeToDeliver" style="text-align:center">
+        <b><u>Order ready at: </b></u><br/>
+        <% for (let i = 0; i < items.length; i++) { %>
       </div>
-      <% for (let i = 0; i < items.length; i++) { %>
-        <div>
-          <%= items[i].name %> <br/>
-          Quantity: <%= order_items[i].quantity %> <br/>
-          Total: $<%= ((items[i].price * order_items[i].quantity) / 100).toFixed(2) %> <br/>
-          <%= items[i].description %> <br/>
-        </div>
+
+      <div class="orderItems">
+        <u><b><%= items[i].name %> : </b></u><br>
+        <i><%= items[i].description %> </i><br/>
+        Quantity: <b><%= order_items[i].quantity %> </b><br/>
+        Subtotal: <b>$<%= ((items[i].price * order_items[i].quantity) / 100).toFixed(2) %> </b><br/>
+      </div>
       <% }; %>
-      <div>
+
+      <div class="grandTotal">
         <% let grandTotal = 0;
         for (let i = 0; i < items.length; i++) {
           grandTotal += items[i].price * order_items[i].quantity;
         }
         grandTotal = (grandTotal / 100).toFixed(2);
         %>
-        Grand Total: $<%= grandTotal %>
+        <b>Grand Total: $<%= grandTotal %></b>
       </div>
-      <a href="/">Place a New Order</a>
-      <a href="/api/orders/">View All Orders</a>
-    </div>
+
+      <a href="/" class="btn btn-light">Place a New Order</a>
+      <a href="/api/orders/" class="btn btn-light">View All Orders</a>
+    </box>
   </body>
   <script>
     let placedTime = parseInt(document.querySelector("#placedTime").innerHTML);

@@ -1,3 +1,5 @@
+// main page
+
 body {
   display: flex;
   flex-direction:row;
@@ -85,4 +87,54 @@ h2 {
 #orderForm {
   margin-top: 2em;
   margin-bottom: 5em;
+}
+
+// orders page
+.orderConfirmation {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  align-items: space-between;
+  justify-content: center;
+  width: 45%;
+  margin: 0.5em;
+  border: 3px solid #728CAE;
+}
+
+.timeToDeliver {
+  padding: 1em;
+  margin: 0.5em;
+  border: 3px solid #728CAE;
+}
+
+.orderItems {
+  align-content: center;
+  border-top: 1px solid #728CAE;
+  border-bottom: 1px solid #728CAE;
+}
+
+.grandTotal {
+  padding-top: 2em;
+  padding-bottom: 2em;
+  display: flex;
+  align-self: center;
+}
+
+// order history
+.orderHistory {
+  padding: 1em;
+  align-items: center;
+  width: 45%;
+  margin: 0.5em;
+  border: 3px solid #728CAE;
+}
+
+.individualOrders {
+  padding: 0.3em;
+  border-bottom: 1px solid #728CAE;
+}
+
+.orderLine {
+  padding: 0.3em;
+  border-bottom: 1px solid #728CAE;
 }

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home Page</title>
-
+    <title>Order History</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/main.css" type="text/css" />
@@ -12,12 +12,13 @@
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
   <body>
-    <div>
-      <h1>Orders  </h1>
-      <ul>
+    <div class="orderHistory">
+      <h1 style="text-align:center">Orders  </h1>
+      <div class="individualOrders">
         <% orders.forEach(function(order){ %>
-        <div>
-          <a href="/api/orders/<%= order.id %>">View Order</a>
+        <div class="orderLine">
+          <a href="/api/orders/<%= order.id %>" class="btn btn-light">View Order </a>
+            -
           <b>
             Order #<%= order.id %> :
           </b>
@@ -25,8 +26,8 @@
         </div>
         <% }); %>
         <br>
-        <a href="/">Place a New Order</a>
-      </ul>
+        <a href="/" class="btn btn-light">Place a New Order</a>
+      </div>
     </div>
   </body>
 </html>
